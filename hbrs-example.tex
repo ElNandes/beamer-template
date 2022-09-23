@@ -163,83 +163,32 @@
 	\end{center}
 \end{table}
 \end{frame}
+\section{Evaluation}
+\begin{frame}{Evaluation}
+	\framesubtitle{Score}
+	\begin{itemize}
+		\item Pearsons Correlation
+		\begin{equation}
+		\label{equation:pearson correlation}
+		\rho(y,\hat{y}) = \frac{cov(y,\hat{y})}{\sigma_y \sigma_{\hat{y}}}
+		\end{equation}
+		\item RMSE Score
+		\begin{equation}
+		\label{equation:Root mean square error}
+		RMSE = \sqrt{\frac{1}{n}\Sigma_{i=1}^n(\hat{y_i} - y_i)^2}
+		\end{equation}
+	\end{itemize}
+Where $y$ represents actual grade and $\hat{y}$ represents predicted grade with $\sigma_y$ and $\sigma_{\hat{y}}$ computed as the standard deviation of $y$ and $\hat{y}$
+\end{frame}
+\begin{frame}{Evaluation}
+\framesubtitle{Feedback}
+\end{frame}
 \section{Results}
 \begin{frame}{Results}
-	\framesubtitle{Scores}
-	\begin{table}
-		\centering
-		\resizebox{0.4\textwidth}{!}{% %
-		\begin{tikzpicture}
-		\def\mycollabels{all-mpnet-base-v2, all-distilroberta-v1, all-MiniLM-L12-v2, multi-qa-distilbert-cos-v1,all-MiniLM-L6-v2}
-		\def\myrowlabels{,Pearson's $\rho$, RMSE, ,Pearson's $\rho$, RMSE ,, Pearson's $\rho$, RMSE, ,Pearson's $\rho$, RMSE,,Mean Pearson's $\rho$,Mean RMSE}
-		\def\mydata{
-			{},
-			{\textbf{0.826}, 0.814, 0.814, 0.818, 0.817},
-			{\textbf{0.893}, 0.920, 0.919,0.911, 0.915},
-			{},
-			{0.790, 0.783, 0.783, \textbf{0.791}, 0.783},
-			{\textbf{0.949}, 0.963, 0.961, 0.946, 0.963},
-			{},
-			{\textbf{0.816}, 0.807, 0.810, 0.815, 0.810},
-			{\textbf{0.920}, 0.938, 0.930, \textbf{0.920}, 0.933},
-			{},
-			{0.774, \textbf{0.782}, 0.778, 0.761, 0.747},
-			{0.961, \textbf{0.942}, 0.953, 0.987, 1.011},
-			{},
-			{\textbf{0.802},	0.797,	0.796,	0.796,	0.789},
-			{\textbf{0.931},	0.941,	0.941,	0.941,	0.956},
-		}
-		\def\height{1.2em}
-		\def\size{4em}
-		\def\labelsize{6em}
-		\def\textsize{\small}
-		
-		\draw (3.5*\size, -0.5*\height) node[]{\textsize Passage-based method};
-		\draw (3.5*\size, -3.5*\height) node[]{\textsize Sentence-based method};
-		\draw (3.5*\size, -6.5*\height) node[]{\textsize Chunk-based method};
-		\draw (3.5*\size, -9.5*\height) node[]{\textsize RDF-based method};
-		\draw% horizontal lines
-		(0.5*\size,0) -- (5.5*\size,0)
-		(-\labelsize,-1*\height) -- (5.5*\size,-1*\height)
-		(-\labelsize,-3*\height) -- (5.5*\size,-3*\height)
-		(-\labelsize,-4*\height) -- (5.5*\size,-4*\height)
-		(-\labelsize,-6*\height) -- (5.5*\size,-6*\height)
-		(-\labelsize,-7*\height) -- (5.5*\size,-7*\height)
-		(-\labelsize,-9*\height) -- (5.5*\size,-9*\height)
-		(-\labelsize,-10*\height) -- (5.5*\size,-10*\height)
-		(-\labelsize,-12*\height) -- (5.5*\size,-12*\height)
-		(-\labelsize,-13*\height) -- (5.5*\size,-13*\height)
-		(-\labelsize,-15*\height) -- (5.5*\size,-15*\height);
-		
-		\draw% vertical lines
-		(0.5*\size,0) -- (0.5*\size,-15*\height)
-		(5.5*\size,0) -- (5.5*\size,-15*\height)
-		(-\labelsize,-1*\height) -- (-\labelsize,-3*\height)
-		% (4.5*\size,-1*\height) -- (4.5*\size,-4*\height)
-		(-\labelsize,-4*\height) -- (-\labelsize,-6*\height)
-		(-\labelsize,-7*\height) -- (-\labelsize,-9*\height)
-		(-\labelsize,-10*\height) -- (-\labelsize,-12*\height)
-		(-\labelsize,-13*\height) -- (-\labelsize,-15*\height);
-		% draw row labels
-		\foreach \lbl [count=\x] in \myrowlabels {
-			\draw (-\labelsize, -\x*\height+0.5*\height) node[right]{\textsize \lbl};
-		}
-		% draw diagonal labels
-		\foreach \lbl [count=\x] in \mycollabels {
-			\draw (\x*\size, 0) node[above right, rotate=45]{\textsize \lbl};
-		}
-		
-		% draw cell labels 
-		\foreach \row [count=\y] in \mydata {
-			\foreach \elem [count=\x] in \row {
-				\draw (\x*\size, -\y*\height+0.5*\height) node[]{\textsize \elem};
-			}
-		}
-		\end{tikzpicture}
-		}
-		\caption{Shows the Pearson correlation and RMSE values for the methods with each pre-trained language model when a Random Forest classifier is used on the Mohler dataset \cite{mohler-etal-2011-learning}.}
-		\label{table:Score table Random forest mohler}
-	\end{table}
+	\framesubtitle{Feedback}
+		%\hspace*{4em}\raisebox{-4em}{
+		%\resizebox{0.5\textwidth}{!}{% %
+		%\begin{tikzpicture}
 \end{frame}
 \section{Summary}
 \section{Future Work}
