@@ -14,23 +14,24 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{dsfont}
-\usepackage{url}       % `\url
+%%\usepackage{url}       % `\url
 \usepackage{listings}  % Code listings
 \usepackage[T1]{fontenc}
+\font\myfont=cmr12 at 10pt
 
 
 \usepackage{theme/beamerthemehbrs}
 
-\author[Name]{First Name}
-\title{Title of presentation}
-\subtitle{Subtitle of presentation}
+\author[Name]{Elanton Fernandes}
+\subtitle{Active Learning Loop}
+\title{Analysis of Active Learning Mechanism Applied to Language Models for Computer Assisted Short Answer Grading}
 \institute[HBRS]{Hochschule Bonn-Rhein-Sieg}
 \date{\today}
 \subject{Test beamer}
 
 % leave the value of this argument empty if the advisors
 % should not be included on the title slide
-\def\advisors{Prof. Dr. Max Mustermann, Prof. Dr. Jane Doe}
+\def\advisors{Prof. Dr. Paul G. Pl{\"o}ger, M.Sc Tim Metzler}
 
 % \thirdpartylogo{path/to/your/image}
 
@@ -43,8 +44,243 @@
 }
 
 
-\section{First section}
-\subsection{A subsection}
+\section{Motivation}
+\begin{frame}{Motivation}
+	In universities with an increase in number of student every semester, the number of tests conducted also increases. This means that:
+	\begin{itemize}
+		\item The professor spends more time in correcting student exams than preparing for lectures.
+		\item If students are not assigned full scores for on a test, they expect a meaningful feedback from the professor.
+	\end{itemize}
+\end{frame}
+\begin{frame}{Motivation}
+	Consider the following dummy scenario:
+	\begin{itemize}
+		\item 80 students enrolled in a class.
+		\item Tests are conducted bi-weekly.
+		\item Professor requires 15 minutes to evaluate one student test.
+		\item Total time spent by the professor to evaluate all tests per week is 10 hours. 
+	\end{itemize}
+\end{frame}
+\section{Problem Statement}
+\begin{frame}{Problem Statement}
+	%\framesubtitle{Problem Statement}
+	\begin{itemize}
+		\item To automate the evaluation of student tests while still keeping the oracle/professor in the loop.
+		\item Allow the assignment of meaningful feedback to student answers indicating their mistakes.
+	\end{itemize}
+	
+\end{frame}
+
+\section{State of the Art}
+\section{Approach}
+\begin{frame}{Approach}
+	\framesubtitle{Training cycle}
+	\begin{figure}
+		\centering
+		\includegraphics[scale = 0.65]{images/architecture_training.pdf}
+		\label{fig:architecture train}
+	\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Prediction cycle}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.65]{images/architecture_prediction.pdf}
+	\label{fig:architecture predict}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+	\framesubtitle{Uncertainty Sampling}
+	Uncertainty sampling is a query strategy that queries the instances about which it is least certain how to label. We use uncertainty sampling variant might query the instance whose prediction is the least confident:
+	\begin{equation}
+	\label{equation:uncertainty sampling}
+	\scalebox{1.2}{$x_{LC} = argmin_{x} P({\hat{y}|x;\theta})$}
+	\end{equation}
+	Where $x$ is the feature, $y$ is the class label prediction, and $\hat{y} = argmax_y P({y|x;\theta})$ is the class label that has the largest posterior probability using model $\theta$.
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Overview}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.65]{images/feature_extraction.pdf}
+	\label{fig:feature extraction}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Passage-based method}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.65]{images/passage_FE_slides.pdf}
+	\label{fig:passage fe slides}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Sentence-based method}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.65]{images/sentence_FE_slides.pdf}
+	\label{fig:sentence fe slides}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Chunk-based method}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.5]{images/chunk_FE_slides.pdf}
+	\label{fig:chunk fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: RDF-based method}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.65]{images/RDF_FE_slides.pdf}
+	\label{fig:rdf fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Language Models}
+\begin{table}
+	\begin{center}
+		\begin{tabular}{ |c|c|c| }
+			\hline
+			Model: & Base model & Number \\&&Training tuples  
+			\\ \hline 
+			all-mpnet-base-v2\cite{SBERT} & 	microsoft/mpnet-base. &1.17B
+			
+			\\ \hline
+			all-distilroberta-v1\cite{SBERT} & 	distilroberta-base &1.12B
+			\\ \hline
+			all-MiniLM-L12-v2\cite{SBERT} & 		microsoft/MiniLM-L12-H384-uncased &1.17B
+			\\ \hline
+			multi-qa-distilbert-cos-v1\cite{SBERT} & 	distilbert-base &214M
+			\\ \hline
+			all-MiniLM-L6-v2\cite{SBERT} & 		nreimers/MiniLM-L6-H384-uncased &1.17B
+			\\ \hline
+		\end{tabular}
+		\caption{Displays pre-trained language models with their base model used in training and number of training tuples used\cite{SBERT}.}
+		\label{table:language models}
+	\end{center}
+\end{table}
+\end{frame}
+\section{Results}
+\begin{frame}{Results}
+	\framesubtitle{Scores}
+	\begin{table}
+		\centering
+		\resizebox{0.4\textwidth}{!}{% %
+		\begin{tikzpicture}
+		\def\mycollabels{all-mpnet-base-v2, all-distilroberta-v1, all-MiniLM-L12-v2, multi-qa-distilbert-cos-v1,all-MiniLM-L6-v2}
+		\def\myrowlabels{,Pearson's $\rho$, RMSE, ,Pearson's $\rho$, RMSE ,, Pearson's $\rho$, RMSE, ,Pearson's $\rho$, RMSE,,Mean Pearson's $\rho$,Mean RMSE}
+		\def\mydata{
+			{},
+			{\textbf{0.826}, 0.814, 0.814, 0.818, 0.817},
+			{\textbf{0.893}, 0.920, 0.919,0.911, 0.915},
+			{},
+			{0.790, 0.783, 0.783, \textbf{0.791}, 0.783},
+			{\textbf{0.949}, 0.963, 0.961, 0.946, 0.963},
+			{},
+			{\textbf{0.816}, 0.807, 0.810, 0.815, 0.810},
+			{\textbf{0.920}, 0.938, 0.930, \textbf{0.920}, 0.933},
+			{},
+			{0.774, \textbf{0.782}, 0.778, 0.761, 0.747},
+			{0.961, \textbf{0.942}, 0.953, 0.987, 1.011},
+			{},
+			{\textbf{0.802},	0.797,	0.796,	0.796,	0.789},
+			{\textbf{0.931},	0.941,	0.941,	0.941,	0.956},
+		}
+		\def\height{1.2em}
+		\def\size{4em}
+		\def\labelsize{6em}
+		\def\textsize{\small}
+		
+		\draw (3.5*\size, -0.5*\height) node[]{\textsize Passage-based method};
+		\draw (3.5*\size, -3.5*\height) node[]{\textsize Sentence-based method};
+		\draw (3.5*\size, -6.5*\height) node[]{\textsize Chunk-based method};
+		\draw (3.5*\size, -9.5*\height) node[]{\textsize RDF-based method};
+		\draw% horizontal lines
+		(0.5*\size,0) -- (5.5*\size,0)
+		(-\labelsize,-1*\height) -- (5.5*\size,-1*\height)
+		(-\labelsize,-3*\height) -- (5.5*\size,-3*\height)
+		(-\labelsize,-4*\height) -- (5.5*\size,-4*\height)
+		(-\labelsize,-6*\height) -- (5.5*\size,-6*\height)
+		(-\labelsize,-7*\height) -- (5.5*\size,-7*\height)
+		(-\labelsize,-9*\height) -- (5.5*\size,-9*\height)
+		(-\labelsize,-10*\height) -- (5.5*\size,-10*\height)
+		(-\labelsize,-12*\height) -- (5.5*\size,-12*\height)
+		(-\labelsize,-13*\height) -- (5.5*\size,-13*\height)
+		(-\labelsize,-15*\height) -- (5.5*\size,-15*\height);
+		
+		\draw% vertical lines
+		(0.5*\size,0) -- (0.5*\size,-15*\height)
+		(5.5*\size,0) -- (5.5*\size,-15*\height)
+		(-\labelsize,-1*\height) -- (-\labelsize,-3*\height)
+		% (4.5*\size,-1*\height) -- (4.5*\size,-4*\height)
+		(-\labelsize,-4*\height) -- (-\labelsize,-6*\height)
+		(-\labelsize,-7*\height) -- (-\labelsize,-9*\height)
+		(-\labelsize,-10*\height) -- (-\labelsize,-12*\height)
+		(-\labelsize,-13*\height) -- (-\labelsize,-15*\height);
+		% draw row labels
+		\foreach \lbl [count=\x] in \myrowlabels {
+			\draw (-\labelsize, -\x*\height+0.5*\height) node[right]{\textsize \lbl};
+		}
+		% draw diagonal labels
+		\foreach \lbl [count=\x] in \mycollabels {
+			\draw (\x*\size, 0) node[above right, rotate=45]{\textsize \lbl};
+		}
+		
+		% draw cell labels 
+		\foreach \row [count=\y] in \mydata {
+			\foreach \elem [count=\x] in \row {
+				\draw (\x*\size, -\y*\height+0.5*\height) node[]{\textsize \elem};
+			}
+		}
+		\end{tikzpicture}
+		}
+		\caption{Shows the Pearson correlation and RMSE values for the methods with each pre-trained language model when a Random Forest classifier is used on the Mohler dataset \cite{mohler-etal-2011-learning}.}
+		\label{table:Score table Random forest mohler}
+	\end{table}
+\end{frame}
+\section{Summary}
+\section{Future Work}
+\section{Extra Slides}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Passage-based method}
+\begin{figure}
+\centering
+\includegraphics[scale = 0.65]{images/passage_FE.pdf}
+\label{fig:passage fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Sentence-based method}
+\begin{figure}
+\centering
+\includegraphics[scale = 0.65]{images/sentence_FE.pdf}
+\label{fig:sentence fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: Chunk-based method}
+\begin{figure}
+\centering
+\includegraphics[scale = 0.5]{images/chunk_FE.pdf}
+\label{fig:chunk fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Approach}
+\framesubtitle{Feature Extraction: RDF-based method}
+\begin{figure}
+\centering
+\includegraphics[scale = 0.65]{images/RDF_FE.pdf}
+\label{fig:rdf fe}
+\end{figure}
+\end{frame}
+
+
+
+
+
 
 \begin{frame}{Jabberwocky}
       \framesubtitle{Lewis Carroll}%
@@ -322,6 +558,8 @@
     \begin{frame}[label=bibliography]{Bibliography}
       \framesubtitle{\TeX, \LaTeX, and Beamer}
       \begin{thebibliography}{9}
+      	\bibitem{SBERT}
+      		
         \bibitem{knuth84}
             Donald~E.~Knuth.
             \emph{The \TeX book}.

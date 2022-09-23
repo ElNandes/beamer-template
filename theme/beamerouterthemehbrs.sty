@@ -44,7 +44,7 @@
     \fi%
 
 
-
+	\vskip.8\baselineskip
     % Input the title
     \usebeamerfont{title}%
     \usebeamercolor[fg]{title}%
@@ -62,7 +62,7 @@
     \usebeamercolor[fg]{subtitle}%
     \begin{minipage}{\textwidth}
       \raggedright%
-      \insertsubtitle%
+      %\insertsubtitle%
     \end{minipage}\vskip.25\baselineskip
 
 
@@ -143,7 +143,7 @@
 
 
     \node[anchor=south east,  yshift=\extrapadding, xshift=-\extrapadding] at (current page.south east) {
-        \usebeamerfont{title in head/foot}\insertshorttitle~ -
+        \usebeamerfont{title in head/foot}\insertsubtitle~ -
         \usebeamerfont{author in head/foot}\textbf{\insertshortauthor}\hspace*{2em}
         \usebeamercolor[fg]{framenumber}%
         \usebeamerfont{framenumber}%
