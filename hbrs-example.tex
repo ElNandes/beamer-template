@@ -162,6 +162,8 @@ Where $x$ is the feature, $y$ is the class label prediction, and $\hat{y} = argm
 	\includegraphics[scale = 0.65]{images/feature_extraction.pdf}
 	\label{fig:feature extraction}
 \end{figure}
+\footnote{\footnotesize\tiny N. Reimers and I. Gurevych, “Sentence-bert: Sentence embeddings using siamese bert-networks,”
+	2019.}
 \end{frame}
 \begin{frame}{Approach}
 \framesubtitle{Feature Extraction: Passage-Based Method}
@@ -478,11 +480,11 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 				\\ \hline 
 				Reference Answer & A location in memory\\& that can store a value.
 				\\ \hline
-				Student Answer & a value/word that can\\& assume any of a set of values
+				Student Answer & A value/word that can\\& assume any of a set of values
 				\\ \hline
-				Feedback A & correct
+				Feedback A & Correct
 				\\ \hline
-				Feedback B & missing keywords:\\& location in memory
+				Feedback B & Missing keywords:\\& Location in memory
 				\\ \hline
 				Feedback C & A variable is a location\\& in memory that stores a value
 				\\ \hline
@@ -567,9 +569,9 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 				\hline
 				Dataset & Method & Model & Classifier \\
 				\hline
-				Mohler & M3 & LM1\& LM4& Random Forest \\
+				Mohler & M1 & LM1& Random Forest \\
 				\hline
-				NN Exam & M1 & LM2 & Random Forest\\
+				NN Exam & M1 & LM1 & Random Forest\\
 				\hline
 				AMR Exam & M1\& M3 & LM3 & Random Forest\\
 				\hline	
@@ -588,7 +590,7 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 			\hline
 			Dataset & Method & Model & Method-Model & Classifier \\
 			\hline
-			Mohler & M1 & LM4 & M1-LM4 & RF \\
+			Mohler & M1 & LM4 & M1-LM4 & Random Forest \\
 			\hline
 		\end{tabular}
 	\caption{Results of feedback evaluation}
@@ -609,7 +611,7 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 \begin{itemize}
 	\item RDF-based method did not give good RDF triplets. Fine tune model for better results.
 	\item Fine tune language models similar to \textcolor{blue}{multi-qa-distilbert-cos-v1} to create embeddings.
-	\item 
+	\item Chunk-based Method took 41 sec per prediction. This time needs to be reduced.
 \end{itemize}
 \end{frame}
 \begin{frame}
@@ -648,6 +650,50 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 %      \end{thebibliography}
 %    \end{frame}
 
+\begin{frame}{Foundation}
+\framesubtitle{Cosine Similarity}
+
+If $\boldsymbol{x}$ and $\boldsymbol{y}$ are two sentences and  $\boldsymbol{e_x}$ and $\boldsymbol{e_y}$ are embeddings of these sentences. Then the cosine similarity is given by:
+
+\begin{equation}
+\label{equation:cosinesimilarity}
+S_{cosine}(\boldsymbol{e_x},\boldsymbol{e_y}) = \frac{\boldsymbol{e_x} \cdot \boldsymbol{e_y}}{\|\boldsymbol{e_x}\| \|\boldsymbol{e_y}\|}
+\end{equation}
+
+\end{frame}
+\begin{frame}{Foundation}
+\framesubtitle{Active Learning}
+\begin{figure}
+	\centering
+	\includegraphics[scale = 0.25]{images/activelearningloopSettles.png}
+	\label{fig:passage fe}
+\end{figure}
+\end{frame}
+\begin{frame}{Foundation}
+	\framesubtitle{Chunking}
+	\begin{figure}
+		\centering
+		\includegraphics[scale = 0.5]{images/chunking.png}
+		\label{fig:passage fe}
+	\end{figure}
+\begin{table}
+	\centering
+	\resizebox{0.8\textwidth}{!}{%
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\textbf{Symbol} & \textbf{Meaning} & \textbf{Symbol} &\textbf{Meaning}\\
+		\hline
+		\cellcolor{Gray}NP & \cellcolor{Gray}Noun Phrase & VP &Verb phrase \\
+		\hline
+		NN & Noun & \cellcolor{Gray}DT & \cellcolor{Gray}zero or one determiner
+		\\ \hline
+		\cellcolor{Gray}JJ & \cellcolor{Gray}One or more adjectives &PRP& Preposition
+		
+		\\ \hline
+		
+	\end{tabular}}
+\end{table}
+\end{frame}
 \begin{frame}{Approach:Example}
 \framesubtitle{Feature Extraction: Passage-based method}
 \begin{figure}
@@ -820,6 +866,29 @@ $Agreement\ Score$ $= \frac{Model\ generated\ most\ rated\ feedback}{Total\ Numb
 \begin{center}
 \includegraphics[width=0.9\textwidth]{images/survey_5.pdf}
 \end{center}
+\end{frame}
+\begin{frame}{Results}
+\framesubtitle{Prediction Time}
+	\begin{table}
+		\begin{center}
+			\begin{tabular}{ |c|c| }
+				\hline
+				\textbf{Method} & \textbf{Avg. Prediction Time (sec)}
+				\\ \hline
+				Passage-Based & \textbf{0.0344}
+				\\ \hline
+				Sentence-Based & 0.0749
+				\\ \hline
+				Chunk-Based & 41.3039
+				\\ \hline
+				RDF-Based & 5.8424
+				\\ \hline
+				
+			\end{tabular}
+			\caption{Shows average prediction time (in seconds) per response for each method.}
+			\label{table:prediction time}
+		\end{center}
+	\end{table}
 \end{frame}
 %\begin{frame}{Jabberwocky}
 %      \framesubtitle{Lewis Carroll}%
